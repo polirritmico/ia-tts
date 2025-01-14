@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import re
 from pathlib import Path
 
 import torch
-from num2words import num2words
 from TTS.api import TTS
+
+from text_processor import text_processor
+from word_dict import word_dict
 
 assert torch.cuda.is_available()
 device = "cuda"
@@ -40,12 +41,7 @@ def process_file(file_path: str, output_file: str, opts):
     with open(file_path, "r", encoding="utf-8") as stream:
         content = stream.read()
 
-    print("converting numbers to words...")
-    content = re.sub(
-        r"(\d+)", lambda s: num2words(int(s.group(0)), lang=opts.get("lang")), content
-    )
-
-    # TODO: Add periods
+    content = text_processor(content, word_dict, opts)
 
     print("Executing text to audio...")
     text_to_audio(content, output_file, opts)
