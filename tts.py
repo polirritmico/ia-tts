@@ -32,6 +32,11 @@ def text_to_audio(text: str, output_path: str, opts: dict):
     if opts.get("lang_model"):
         tts_opts["lang"] = opts.get("lang")
 
+    # NOTE:
+    # 1. Change config 20100 -> 19800 khz to improve the tempo (to fast):
+    #    /home/docker-usr/.local/share/tts/tts_models--es--css10--vits/config.json
+    # 2. pysbd is hardcoded to `en` so changed to `es`:
+    #    ~/.local/lib/python3.10/site-packages/TTS/utils/synthesizer.py:93
     tts.tts_to_file(**tts_opts)
     return output_path
 
