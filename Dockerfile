@@ -15,6 +15,7 @@ RUN usermod -aG sudo ${USER}
 RUN echo "${USER} ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 ENV PATH="${PATH}:/home/${USER}/.local/bin"
+ENV MIOPEN_LOG_LEVEL=3
 
 WORKDIR /home/${USER}/
 
