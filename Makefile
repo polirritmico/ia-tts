@@ -28,4 +28,4 @@ speakers:
 	cp /models/speakers/*.wav speakers/
 
 docker:
-	docker run -it --cap-add=SYS_PTRACE --security-opt seccomp=unconfined --device=/dev/kfd --device=/dev/dri --group-add video --ipc=host --shm-size 8G --name tts --user $(id -u):$(id -g) -v ~/ia/tts:/tts rocm-custom
+	docker run -it --cap-add=SYS_PTRACE --security-opt seccomp=unconfined --device=/dev/kfd --device=/dev/dri --group-add video --ipc=host --shm-size 8G --name tts -v ~/ia/tts:/tts rocm-tts
