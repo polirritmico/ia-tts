@@ -47,7 +47,7 @@ def uppercase_first_letter(line: str) -> str:
 
 
 def text_processor(raw_text: str, replacement_dict: dict[str, str], opts: dict) -> str:
-    print("Applying processors...")
+    print("Applying text filters and customizations...")
 
     processed: list[str] = []
     for line in raw_text.splitlines():
@@ -63,6 +63,8 @@ def text_processor(raw_text: str, replacement_dict: dict[str, str], opts: dict) 
         processed.append(line)
 
     multiline_text = "\n\n".join(processed)
+    with open("processed_temp_text.txt", "w", encoding="utf-8") as stream:
+        stream.write(multiline_text)
     return multiline_text
 
 
