@@ -11,6 +11,16 @@ if [[ -z ${1-} ]]; then
     exit 1
 fi
 
+function process_files() {
+    echo -e "Files to process: '${audio_files}'"
+    echo -e "=============================================="
+
+    for ((i = 0; i < ${#audio_files[@]}; i++)); do
+        file=${audio_files[i]}
+        process_audio_file "$file"
+    done
+}
+
 function process_audio_file() {
     INPUT="$1"
     OUTPUT="${INPUT%.wav}.mp3"
@@ -37,14 +47,11 @@ function process_audio_file() {
     echo -e "Done"
 }
 
-file_list=""
-audio_files=()
-
 function get_files() {
-    if [ -f "$1" ]; then
-        file_list="$1"
-    elif [ -d "$1" ]; then
-        file_list=$(find "$1" -mindepth 1 -maxdepth 1 -type f)
+    if [ -f "$user_input" ]; then
+        file_list="$user_input"
+    elif [ -d "$user_input" ]; then
+        file_list=$(find "$user_input" -mindepth 1 -maxdepth 1 -type f)
     else
         echo "Invalid input"
         exit 1
@@ -66,11 +73,26 @@ function get_wav_files() {
     fi
 }
 
-get_files "$1"
-get_wav_files
-echo -e "Files to process: '${audio_files}'\n----------------------------------------------"
+function remove_original_audio_files() {
+    read -r -p "Delete original WAV file(s)? (y/n): " choice
+    if [[ "$choice" =~ ^[Yy]$ ]]; then
+        for ((i = 0; i < ${#audio_files[@]}; i++)); do
+            file="${audio_files[i]}"
+            rm "${file}"
+            echo -e "Removed '${file}'"
+        done
+    fi
+}
 
-for ((i = 0; i < ${#audio_files[@]}; i++)); do
-    file=${audio_files[i]}
-    process_audio_file "$file"
-done
+# -----------------------------------------------------------------------------
+
+user_input="${1}"
+file_list=""
+audio_files=()
+
+get_files
+get_wav_files
+process_files
+remove_original_audio_files
+
+echo -e "Done"
