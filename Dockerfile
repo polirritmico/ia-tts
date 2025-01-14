@@ -7,9 +7,12 @@
 
 FROM rocm/dev-ubuntu-22.04:latest
 
-ARG USER=docker_user
+ARG USER=docker-usr
 
 RUN useradd -ms /bin/bash ${USER}
+
+RUN usermod -aG sudo ${USER}
+RUN echo "${USER} ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 ENV PATH="${PATH}:/home/${USER}/.local/bin"
 
