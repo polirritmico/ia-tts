@@ -84,9 +84,12 @@ def main():
 
     # -------------------------------------------------------------------------
 
+    outdir = Path("output")
+    outdir.mkdir(exist_ok=True)
     for file in files:
         print(f"Processing file {file}")
-        output_file = f"{Path(file).stem}_{Path(opts.get('model')).name}{tag}.wav"
+        file_name = f"{Path(file).stem}_{Path(opts.get('model')).name}{tag}.wav"
+        output_file = outdir / file_name
         process_file(file, output_file, opts)
         print("Done!")
 
