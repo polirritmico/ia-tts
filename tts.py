@@ -72,9 +72,11 @@ def main():
     opts["lang_model"] = False
     # opts["vocoder"] = "vocoder_models/universal/libri-tts/fullband-melgan"
 
-    # EN
+    # EN (apt install espeak-ng)
     # opts["model"] = "tts_models/en/ljspeech/vits"
     # opts["vocoder"] = "vocoder_models/en/ljspeech/hifigan_v2"
+    # opts["lang"] = "en"
+    # opts["lang_model"] = False
 
     files = [
         "test_es2.txt",
