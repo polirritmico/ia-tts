@@ -55,6 +55,7 @@ def store_temp_text(text: str) -> None:
         file = tmpdir / f"{basename}{i:03d}.txt"
         if not file.exists():
             file.write_text(text, encoding="utf-8")
+            return
 
 
 def text_processor(raw_text: str, replacement_dict: dict[str, str], opts: dict) -> str:
