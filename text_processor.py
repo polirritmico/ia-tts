@@ -46,6 +46,17 @@ def uppercase_first_letter(line: str) -> str:
     return line
 
 
+def store_temp_text(text: str) -> None:
+    tmpdir = Path("tmp")
+    basename = "_text-processed_"
+
+    tmpdir.mkdir(parents=True, exist_ok=True)
+    for i in range(1, 999):
+        file = tmpdir / f"{basename}{i:03d}.txt"
+        if not file.exists():
+            file.write_text(text, encoding="utf-8")
+
+
 def text_processor(raw_text: str, replacement_dict: dict[str, str], opts: dict) -> str:
     print("Applying text filters and customizations...")
 
@@ -63,8 +74,7 @@ def text_processor(raw_text: str, replacement_dict: dict[str, str], opts: dict) 
         processed.append(line)
 
     multiline_text = "\n\n".join(processed)
-    with open("processed_temp_text.txt", "w", encoding="utf-8") as stream:
-        stream.write(multiline_text)
+    store_temp_text(multiline_text)
     return multiline_text
 
 
@@ -89,9 +99,8 @@ def main():
         raise Exception(f"Error reading the file:\n{e}")
 
     processed_text = text_processor(raw_text, word_dict, opts)
+    output_file.write_text(processed_text, encoding="utf-8")
 
-    with open(output_file, "w", encoding="utf-8") as stream:
-        stream.write(processed_text)
     print("Done")
 
 
