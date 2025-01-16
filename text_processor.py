@@ -3,6 +3,7 @@
 
 import re
 import sys
+from datetime import datetime
 from pathlib import Path
 
 from num2words import num2words
@@ -46,16 +47,13 @@ def uppercase_first_letter(line: str) -> str:
     return line
 
 
-def store_temp_text(text: str) -> None:
+def store_generated_text(text: str) -> None:
     tmpdir = Path("tmp")
     basename = "_text-processed_"
-
+    basename = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     tmpdir.mkdir(parents=True, exist_ok=True)
-    for i in range(1, 999):
-        file = tmpdir / f"{basename}{i:03d}.txt"
-        if not file.exists():
-            file.write_text(text, encoding="utf-8")
-            return
+    file = tmpdir / f"{basename}.txt"
+    file.write_text(text, encoding="utf-8")
 
 
 def text_processor(raw_text: str, replacement_dict: dict[str, str], opts: dict) -> str:
@@ -75,7 +73,7 @@ def text_processor(raw_text: str, replacement_dict: dict[str, str], opts: dict) 
         processed.append(line)
 
     multiline_text = "\n\n".join(processed)
-    store_temp_text(multiline_text)
+    store_generated_text(multiline_text)
     return multiline_text
 
 
