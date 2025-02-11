@@ -70,6 +70,9 @@ def join_short_lines(text: list[str], min_width: int = 20) -> None:
     lines_to_remove = []
     for line_number, line in enumerate(text):
         if prev_line:
+            # TODO: Check the impact of this:
+            prev_line.replace(".", ",")
+
             line = prev_line + " " + line
             text[line_number] = line
             prev_line = None
